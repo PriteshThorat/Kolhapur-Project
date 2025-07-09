@@ -1,68 +1,84 @@
 import { Header } from "../components/Header.jsx";
 
-const destinations = [
-  {
-    id: 1,
-    name: "The New Palace Museum",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets/TEMP/e4608ca5c82662bf85f236fa77f5522ce3a483fd?width=900",
-  },
-  {
-    id: 2,
-    name: "Rankala Lake",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets/TEMP/2fb25d5d59278e92e0cc30cdf5e47418db125b04?width=900",
-  },
-  {
-    id: 3,
-    name: "The Jyotiba Temple",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets/TEMP/55ce703ca04b2077c33a4d7b8a0e8e88ae0ff1de?width=900",
-  },
-  {
-    id: 4,
-    name: "Panhala Fort",
-    image:
-      "https://cdn.builder.io/api/v1/image/assets/TEMP/7844855bc9ea2dad1304cb9bbed14d7e5167cb54?width=900",
-  },
-];
-
 export default function Index() {
   return (
-    <div className="min-h-screen bg-traverse-rose">
-      <Header />
-
-      <main className="flex justify-center items-center min-h-[calc(100vh-73px)] p-4">
-        <div className="w-full max-w-[552px] bg-white rounded-[20px] p-8 mx-4">
-          {/* Header Section */}
-          <div className="text-center mb-8">
-            <h1 className="font-inter text-[40px] md:text-[48px] font-bold text-black mb-4 leading-tight">
-              Plan Your Next Trip
+      <div className="min-h-screen bg-white">
+        <Header />
+  
+        {/* Hero Section */}
+        <div
+          className="relative min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center px-4"
+          style={{
+            backgroundImage: `url('https://cdn.builder.io/api/v1/image/assets/TEMP/3f9d07cfc468b7034996b1e74ceef706e47f2ff9?width=2880')`,
+            backgroundColor: "lightgray",
+          }}
+        >
+          {/* Main Heading */}
+          <div className="text-center mb-12 md:mb-16">
+            <h1 className="text-white font-irish-grover font-normal text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[128px] leading-normal">
+              EXPLORE THE
+              <br />
+              KOLHAPUR
             </h1>
-            <p className="font-inter text-[18px] md:text-[20px] font-medium text-black">
-              Find curated trips for your next adventure.
-            </p>
           </div>
-
-          {/* Destinations Grid */}
-          <div className="grid grid-cols-2 gap-4">
-            {destinations.map((destination) => (
-              <div key={destination.id} className="group cursor-pointer">
-                <div className="aspect-[4/3] overflow-hidden rounded-[20px] mb-3">
+  
+          {/* Let's Go Button */}
+          <div className="mb-16 md:mb-20">
+            <button
+              className="bg-[#848CD9] hover:bg-[#7379d1] transition-colors duration-200 rounded-[20px] px-8 py-6 md:px-12 md:py-8"
+              aria-label="Start exploring Kolhapur"
+            >
+              <span className="text-black font-tienne text-2xl md:text-3xl lg:text-4xl xl:text-[48px] font-normal">
+                Let's Go
+              </span>
+            </button>
+          </div>
+  
+          {/* Search Form */}
+          <div className="w-full max-w-6xl mx-auto">
+            <div
+              className="bg-cover bg-center bg-no-repeat rounded-[20px] p-6 md:p-8 lg:p-12 mx-4"
+              style={{
+                backgroundImage: `url('https://cdn.builder.io/api/v1/image/assets/TEMP/8ca5a41a79cd59ca2c1fc4785084caad01afb0b4?width=2376')`,
+              }}
+            >
+              <div className="flex flex-col lg:flex-row gap-4 lg:gap-6 items-stretch">
+                {/* Location Input */}
+                <div className="flex-1 bg-white rounded-[10px] p-4 flex items-center gap-4">
                   <img
-                    src={destination.image}
-                    alt={destination.name}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/0e83a3536730e0470b76b4c8d6d188805cd8f11e?width=124"
+                    alt="Location icon"
+                    className="w-8 h-8 md:w-12 md:h-12 flex-shrink-0"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Where did you want to go?"
+                    className="flex-1 text-black font-tinos text-lg md:text-2xl lg:text-[32px] bg-transparent border-none outline-none placeholder-black"
                   />
                 </div>
-                <h3 className="font-inter text-[16px] md:text-[18px] font-bold text-black text-center leading-tight">
-                  {destination.name}
-                </h3>
+  
+                {/* Trip Type Dropdown */}
+                <div className="lg:w-80 bg-white rounded-[10px] p-4 flex items-center justify-between">
+                  <span className="text-black font-tinos text-lg md:text-2xl lg:text-[32px]">
+                    Trip type
+                  </span>
+                  <img
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/0343ab1dd5316b51154bf64b6fd1c6c1d9a2f57d?width=146"
+                    alt="Dropdown arrow"
+                    className="w-6 h-6 md:w-8 md:h-8 flex-shrink-0"
+                  />
+                </div>
+  
+                {/* Search Button */}
+                <button className="lg:w-48 bg-[#312121] hover:bg-[#4a2d2d] transition-colors duration-200 rounded-[10px] p-4 flex items-center justify-center">
+                  <span className="text-white font-istok-web font-normal text-lg md:text-2xl lg:text-[32px]">
+                    Search
+                  </span>
+                </button>
               </div>
-            ))}
+            </div>
           </div>
         </div>
-      </main>
-    </div>
-  );
+      </div>
+    );
 }

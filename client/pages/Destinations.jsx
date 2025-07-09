@@ -44,7 +44,7 @@ export default function Destinations() {
     <div className="min-h-screen bg-white">
       <Header />
 
-      <main className="pt-16 pb-16">
+      <main className="flex justify-center items-center min-h-[calc(100vh-73px)] p-4">
         <div className="max-w-screen-xl mx-auto px-4">
           {/* Header Section */}
           <div className="text-center mb-16">
