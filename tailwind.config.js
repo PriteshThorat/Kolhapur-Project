@@ -66,6 +66,20 @@ export default {
           header: "#877777",
           rose: "#D4B5B5",
         },
+        travel: {
+          blue: {
+            light: '#a3c9f9',
+            DEFAULT: '#3b82f6',
+            dark: '#1e40af',
+          },
+          purple: {
+            light: '#c7b8f9',
+            DEFAULT: '#8b5cf6',
+            dark: '#5b21b6',
+          },
+          gradient1: 'linear-gradient(90deg, #a3c9f9 0%, #c7b8f9 100%)',
+          gradient2: 'linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%)',
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
