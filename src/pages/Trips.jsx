@@ -1,11 +1,14 @@
 import { Header } from "../components/Header.jsx";
 import { Link } from "react-router-dom";
 import Slideshow from "../components/ui/Slideshow.jsx";
+import BookingModal from "../components/ui/BookingModal.jsx";
 import { useState, useEffect } from 'react'
 
 export default function Trips() {
   const [tourPackages, setTourPackages] = useState([])
   const [testimonials, setTestimonials] = useState([])
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false)
+  const [selectedPackage, setSelectedPackage] = useState(null)
   // Removed categories and selectedCategory state
 
   useEffect(() => {
@@ -22,6 +25,16 @@ export default function Trips() {
   }, [])
 
   // Removed filteredTourPackages
+
+  const handleBookNow = (tourPackage) => {
+    setSelectedPackage(tourPackage);
+    setIsBookingModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsBookingModalOpen(false);
+    setSelectedPackage(null);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-travel-blue-light via-travel-purple-light to-white dark:from-travel-blue-dark dark:via-travel-purple-dark dark:to-gray-900 transition-colors duration-500">
@@ -110,7 +123,10 @@ export default function Trips() {
                     </div>
 
                     {/* Book Now Button */}
-                    <button className="w-full bg-gradient-to-tr from-travel-blue-light via-travel-purple-light to-travel-blue-dark dark:from-travel-blue-dark dark:via-travel-purple-dark dark:to-travel-blue-light text-white font-inter font-semibold py-3 rounded-xl hover:opacity-90 transition-all duration-200 shadow-md">
+                    <button 
+                      onClick={() => handleBookNow(ptourPackage)}
+                      className="w-full bg-gradient-to-tr from-travel-blue-light via-travel-purple-light to-travel-blue-dark dark:from-travel-blue-dark dark:via-travel-purple-dark dark:to-travel-blue-light text-white font-inter font-semibold py-3 rounded-xl hover:opacity-90 transition-all duration-200 shadow-md"
+                    >
                       Book Now
                     </button>
                   </div>
@@ -182,6 +198,13 @@ export default function Trips() {
           </div>
         </div>
       </main>
+
+      {/* Booking Modal */}
+      <BookingModal 
+        isOpen={isBookingModalOpen}
+        onClose={handleCloseModal}
+        tourPackage={selectedPackage}
+      />
     </div>
   );
 }
