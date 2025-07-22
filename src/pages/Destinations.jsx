@@ -1,79 +1,22 @@
 import { Header } from "../components/Header.jsx";
-import { useState } from "react";
-
-const destinations = [
-  {
-    id: 1,
-    name: "Mahalakshmi Temple",
-    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/e4608ca5c82662bf85f236fa77f5522ce3a483fd?width=900",
-    alt: "Mahalakshmi Temple",
-    category: "Temples",
-    description: "The sacred Mahalakshmi Temple, known as 'Dakshin Kashi', is the heart of Kolhapur's spiritual heritage.",
-    highlights: ["Sacred Temple", "Cultural Heritage", "Local Markets"],
-    rating: 4.9,
-    reviews: 203
-  },
-  {
-    id: 2,
-    name: "Panhala Fort",
-    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/7378bc1f4ded6ec99d5ec7e39bca559e9f0fa61a?width=900",
-    alt: "Panhala Fort",
-    category: "Forts",
-    description: "Historic Panhala Fort offers breathtaking views of the Sahyadri mountains and rich Maratha history.",
-    highlights: ["Historical Fort", "Panoramic Views", "Adventure Trek"],
-    rating: 4.7,
-    reviews: 94
-  },
-  {
-    id: 3,
-    name: "Rankala Lake",
-    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/2fb25d5d59278e92e0cc30cdf5e47418db125b04?width=900",
-    alt: "Rankala Lake",
-    category: "Lakes",
-    description: "Serene Rankala Lake is perfect for boating, sunset views, and enjoying local street food.",
-    highlights: ["Boating", "Sunset Views", "Local Food"],
-    rating: 4.6,
-    reviews: 89
-  },
-  {
-    id: 4,
-    name: "The New Palace Museum",
-    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/55ce703ca04b2077c33a4d7b8a0e8e88ae0ff1de?width=900",
-    alt: "The New Palace Museum",
-    category: "Museums",
-    description: "Explore the magnificent New Palace Museum showcasing Indo-Saracenic architecture and royal artifacts.",
-    highlights: ["Royal Architecture", "Historical Artifacts", "Photo Opportunities"],
-    rating: 4.8,
-    reviews: 127
-  },
-  {
-    id: 5,
-    name: "Jyotiba Temple",
-    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/dade6f256796581027514403d5b5bc657495964e?width=900",
-    alt: "Jyotiba Temple",
-    category: "Temples",
-    description: "Sacred Jyotiba Temple, one of the most important pilgrimage sites in Maharashtra.",
-    highlights: ["Spiritual Experience", "Mountain Views", "Traditional Rituals"],
-    rating: 4.9,
-    reviews: 156
-  },
-  {
-    id: 6,
-    name: "Kolhapuri Chappal Market",
-    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/7844855bc9ea2dad1304cb9bbed14d7e5167cb54?width=900",
-    alt: "Kolhapuri Chappal Market",
-    category: "Shopping",
-    description: "Famous Kolhapuri chappal market where you can buy authentic handcrafted leather footwear.",
-    highlights: ["Handicrafts", "Local Artisans", "Traditional Footwear"],
-    rating: 4.5,
-    reviews: 67
-  },
-];
+import { useState, useEffect } from "react";
 
 const categories = ["All", "Temples", "Forts", "Lakes", "Museums", "Shopping"];
 
 export default function Destinations() {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [destinations, setDestinations] = useState([])
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_GIST_DATA_URL}`)
+    .then(res => res.json())
+    .then(data => {
+      setDestinations(data.destinations)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }, [])
 
   const filteredDestinations = selectedCategory === "All"
     ? destinations

@@ -13,7 +13,7 @@ export default function Trips() {
     fetch(`${import.meta.env.VITE_GIST_DATA_URL}`)
     .then(res => res.json())
     .then(data => {
-      setTourPackages(data.destinations)
+      setTourPackages(data.trips)
       setTestimonials(data.testimonials)
     })
     .catch(err => {
