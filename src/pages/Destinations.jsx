@@ -1,21 +1,26 @@
 import { Header } from "../components/Header.jsx";
 import { useState, useEffect } from "react";
-
-const categories = ["All", "Temples", "Forts", "Lakes", "Museums", "Shopping"];
+import { Link } from "react-router-dom";
 
 export default function Destinations() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [destinations, setDestinations] = useState([])
+  const [categories, setCategories] = useState(["All"]);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_GIST_DATA_URL}`)
-    .then(res => res.json())
-    .then(data => {
-      setDestinations(data.destinations)
-    })
-    .catch(err => {
-      console.log(err)
-    })
+      .then(res => res.json())
+      .then(data => {
+        setDestinations(Array.isArray(data.destinations) ? data.destinations : []);
+        // Dynamically extract unique categories from data
+        const uniqueCategories = Array.from(
+          new Set((data.destinations || []).map(dest => dest.category))
+        );
+        setCategories(["All", ...uniqueCategories]);
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }, [])
 
   const filteredDestinations = selectedCategory === "All"
@@ -44,8 +49,8 @@ export default function Destinations() {
                   key={category}
                   onClick={() => setSelectedCategory(category)}
                   className={`px-6 py-3 rounded-full font-inter font-medium transition-all duration-200 shadow-md ${selectedCategory === category
-                      ? 'bg-travel-blue-light dark:bg-travel-purple-dark text-white'
-                      : 'bg-white/80 dark:bg-gray-900/80 text-travel-blue-dark dark:text-travel-blue-light hover:bg-travel-blue-light dark:hover:bg-travel-purple-dark hover:text-white'
+                    ? 'bg-travel-blue-light dark:bg-travel-purple-dark text-white'
+                    : 'bg-white/80 dark:bg-gray-900/80 text-travel-blue-dark dark:text-travel-blue-light hover:bg-travel-blue-light dark:hover:bg-travel-purple-dark hover:text-white'
                     }`}
                 >
                   {category}
@@ -103,9 +108,12 @@ export default function Destinations() {
                     <span className="text-sm text-gray-600 dark:text-gray-300">
                       {destination.reviews} reviews
                     </span>
-                    <button className="bg-gradient-to-tr from-travel-blue-light via-travel-purple-light to-travel-blue-dark dark:from-travel-blue-dark dark:via-travel-purple-dark dark:to-travel-blue-light text-white font-inter font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200 text-sm">
+                    <Link
+                      to={`/destinations/${destination.id}`}
+                      className="bg-gradient-to-tr from-travel-blue-light via-travel-purple-light to-travel-blue-dark dark:from-travel-blue-dark dark:via-travel-purple-dark dark:to-travel-blue-light text-white font-inter font-semibold px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200 text-sm text-center block"
+                    >
                       Learn More
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>

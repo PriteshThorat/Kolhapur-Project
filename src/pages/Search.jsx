@@ -1,92 +1,6 @@
 import { Header } from "../components/Header.jsx";
 import { useLocation, Link } from "react-router-dom";
-
-const tourPackages = [
-    {
-        id: 1,
-        name: "The New Palace Museum",
-        image: "https://cdn.builder.io/api/v1/image/assets/TEMP/e4608ca5c82662bf85f236fa77f5522ce3a483fd?width=900",
-        duration: "3-4 hours",
-        difficulty: "Easy",
-        price: "₹500",
-        highlights: ["Royal Architecture", "Historical Artifacts", "Photo Opportunities"],
-        description: "Explore the magnificent New Palace Museum, a stunning example of Indo-Saracenic architecture.",
-        rating: 4.8,
-        reviews: 127,
-        category: "Heritage",
-        location: "Kolhapur"
-    },
-    {
-        id: 2,
-        name: "Rankala Lake",
-        image: "https://cdn.builder.io/api/v1/image/assets/TEMP/2fb25d5d59278e92e0cc30cdf5e47418db125b04?width=900",
-        duration: "2-3 hours",
-        difficulty: "Easy",
-        price: "₹300",
-        highlights: ["Boating", "Sunset Views", "Local Food"],
-        description: "Experience the serene beauty of Rankala Lake with boating and stunning sunset views.",
-        rating: 4.6,
-        reviews: 89,
-        category: "Nature",
-        location: "Rankala Lake"
-    },
-    {
-        id: 3,
-        name: "The Jyotiba Temple",
-        image: "https://cdn.builder.io/api/v1/image/assets/TEMP/55ce703ca04b2077c33a4d7b8a0e8e88ae0ff1de?width=900",
-        duration: "4-5 hours",
-        difficulty: "Moderate",
-        price: "₹400",
-        highlights: ["Spiritual Experience", "Mountain Views", "Traditional Rituals"],
-        description: "Visit the sacred Jyotiba Temple, one of the most important pilgrimage sites in Maharashtra.",
-        rating: 4.9,
-        reviews: 156,
-        category: "Spiritual",
-        location: "Jyotiba Temple"
-    },
-    {
-        id: 4,
-        name: "Panhala Fort",
-        image: "https://cdn.builder.io/api/v1/image/assets/TEMP/7844855bc9ea2dad1304cb9bbed14d7e5167cb54?width=900",
-        duration: "5-6 hours",
-        difficulty: "Moderate",
-        price: "₹600",
-        highlights: ["Historical Fort", "Panoramic Views", "Adventure Trek"],
-        description: "Discover the historic Panhala Fort with breathtaking views of the Sahyadri mountains.",
-        rating: 4.7,
-        reviews: 94,
-        category: "Adventure",
-        location: "Panhala Fort"
-    },
-    {
-        id: 5,
-        name: "Mahalakshmi Temple",
-        image: "https://cdn.builder.io/api/v1/image/assets/TEMP/e4608ca5c82662bf85f236fa77f5522ce3a483fd?width=900",
-        duration: "2-3 hours",
-        difficulty: "Easy",
-        price: "₹200",
-        highlights: ["Sacred Temple", "Cultural Heritage", "Local Markets"],
-        description: "Pay homage at the revered Mahalakshmi Temple, the heart of Kolhapur's spiritual heritage.",
-        rating: 4.9,
-        reviews: 203,
-        category: "Spiritual",
-        location: "Mahalakshmi Temple"
-    },
-    {
-        id: 6,
-        name: "Kolhapuri Chappal Workshop",
-        image: "https://cdn.builder.io/api/v1/image/assets/TEMP/2fb25d5d59278e92e0cc30cdf5e47418db125b04?width=900",
-        duration: "3-4 hours",
-        difficulty: "Easy",
-        price: "₹800",
-        highlights: ["Handicraft Workshop", "Local Artisans", "Custom Orders"],
-        description: "Learn the art of making traditional Kolhapuri chappals from skilled local artisans.",
-        rating: 4.5,
-        reviews: 67,
-        category: "Cultural",
-        location: "Kolhapur"
-    }
-];
+import { useState, useEffect } from "react";
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -95,12 +9,33 @@ function useQuery() {
 export default function Search() {
     const query = useQuery();
     const location = query.get("location") || "";
-    const type = query.get("type") || "";
+    // const type = query.get("type") || ""; // type is not used anymore
 
-    const filtered = tourPackages.filter(pkg => {
-        const matchType = type ? pkg.category.toLowerCase() === type.toLowerCase() : true;
-        const matchLocation = location ? pkg.location.toLowerCase().includes(location.toLowerCase()) : true;
-        return matchType && matchLocation;
+    const [trips, setTrips] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch(`${import.meta.env.VITE_GIST_DATA_URL}`)
+            .then(res => res.json())
+            .then(data => {
+                setTrips(Array.isArray(data.trips) ? data.trips : []);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.log(err);
+                setLoading(false);
+            });
+    }, []);
+
+    const filtered = trips.filter(pkg => {
+        // Try to match location in name, highlights, or description
+        if (!location) return true;
+        const loc = location.toLowerCase();
+        return (
+            (pkg.name && pkg.name.toLowerCase().includes(loc)) ||
+            (pkg.highlights && pkg.highlights.some(h => h.toLowerCase().includes(loc))) ||
+            (pkg.description && pkg.description.toLowerCase().includes(loc))
+        );
     });
 
     return (
@@ -113,19 +48,24 @@ export default function Search() {
                             Search Results
                         </h1>
                         <p className="text-xl md:text-2xl text-travel-purple-dark dark:text-travel-purple-light">
-                            {location && <span>Location: <b>{location}</b></span>} {type && <span> | Trip Type: <b>{type}</b></span>}
+                            {location && <span>Location: <b>{location}</b></span>}
                         </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in">
-                        {filtered.length === 0 && (
+                        {loading ? (
+                            <div className="col-span-full text-center text-xl text-travel-purple-dark dark:text-travel-purple-light">
+                                Loading...
+                            </div>
+                        ) : filtered.length === 0 ? (
                             <div className="col-span-full text-center text-xl text-travel-purple-dark dark:text-travel-purple-light">
                                 No trips found for your search.
                             </div>
-                        )}
-                        {filtered.map(pkg => (
+                        ) : filtered.map(pkg => (
                             <div key={pkg.id} className="rounded-2xl shadow-xl border border-travel-blue-light dark:border-travel-purple-dark bg-white/80 dark:bg-gray-900/80 p-8 flex flex-col items-center text-center transition-transform duration-300 hover:scale-105 hover:shadow-2xl animate-fade-in">
-                                <img src={pkg.image} alt={pkg.name} className="w-full h-[200px] object-cover rounded-xl mb-4" />
+                                {pkg.images && pkg.images.length > 0 && (
+                                    <img src={pkg.images[0]} alt={pkg.name} className="w-full h-[200px] object-cover rounded-xl mb-4" />
+                                )}
                                 <h2 className="font-inter text-2xl font-bold text-travel-blue-dark dark:text-travel-blue-light mb-2">
                                     {pkg.name}
                                 </h2>
@@ -133,7 +73,7 @@ export default function Search() {
                                     {pkg.description}
                                 </p>
                                 <div className="flex flex-wrap gap-2 mb-2 justify-center">
-                                    {pkg.highlights.map((h, i) => (
+                                    {pkg.highlights && pkg.highlights.map((h, i) => (
                                         <span key={i} className="bg-travel-blue-light/20 dark:bg-travel-purple-dark/20 text-travel-blue-dark dark:text-travel-purple-light px-2 py-1 rounded-full text-xs">
                                             {h}
                                         </span>

@@ -17,6 +17,7 @@ import Contact from "./pages/Contact.jsx";
 import TripTypes from "./pages/TripTypes.jsx";
 import TripType from "./pages/TripType.jsx";
 import Search from "./pages/Search.jsx";
+import DestinationDetails from "./pages/DestinationDetails.jsx";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/destinations" element={<Destinations />} />
+          <Route path="/destinations/:id" element={<DestinationDetails />} />
           <Route path="/trips" element={<Trips />} />
           <Route path="/about" element={<About />} />
           <Route path="/explore" element={<Explore />} />

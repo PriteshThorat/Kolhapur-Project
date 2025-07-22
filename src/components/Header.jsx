@@ -25,7 +25,6 @@ export const Header = () => {
             { to: "/trips", label: "Trips" },
             { to: "/about", label: "About" },
             { to: "/contact", label: "Contact" },
-            { to: "/trip-types", label: "Trip Types" },
           ].map(({ to, label }) => (
             <Link
               key={to}

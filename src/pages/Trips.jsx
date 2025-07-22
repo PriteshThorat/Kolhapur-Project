@@ -3,23 +3,25 @@ import { Link } from "react-router-dom";
 import Slideshow from "../components/ui/Slideshow.jsx";
 import { useState, useEffect } from 'react'
 
-const categories = ["All", "Heritage", "Nature", "Spiritual", "Adventure", "Cultural"];
-
 export default function Trips() {
   const [tourPackages, setTourPackages] = useState([])
   const [testimonials, setTestimonials] = useState([])
+  // Removed categories and selectedCategory state
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_GIST_DATA_URL}`)
-    .then(res => res.json())
-    .then(data => {
-      setTourPackages(data.trips)
-      setTestimonials(data.testimonials)
-    })
-    .catch(err => {
-      console.log(err)
-    })
+      .then(res => res.json())
+      .then(data => {
+        setTourPackages(Array.isArray(data.trips) ? data.trips : []);
+        setTestimonials(Array.isArray(data.testimonials) ? data.testimonials : []);
+        // Removed category extraction
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }, [])
+
+  // Removed filteredTourPackages
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-travel-blue-light via-travel-purple-light to-white dark:from-travel-blue-dark dark:via-travel-purple-dark dark:to-gray-900 transition-colors duration-500">
@@ -37,16 +39,7 @@ export default function Trips() {
             </p>
 
             {/* Category Filter */}
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  className="px-6 py-3 rounded-full bg-white/80 dark:bg-gray-900/80 text-travel-blue-dark dark:text-travel-blue-light font-inter font-medium hover:bg-travel-blue-light dark:hover:bg-travel-purple-dark hover:text-white transition-all duration-200 shadow-md"
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
+            {/* Removed Category Filter */}
           </div>
 
           {/* Tour Packages Grid */}
@@ -167,18 +160,23 @@ export default function Trips() {
                 Contact us for custom packages and personalized recommendations
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-green-500 hover:bg-green-600 text-white font-inter font-semibold px-6 py-3 rounded-xl transition-all duration-200 shadow-md">
+                <a 
+                  href="https://wa.me/123456789"
+                  className="bg-green-500 hover:bg-green-600 text-white font-inter font-semibold px-6 py-3 rounded-xl transition-all duration-200 shadow-md">
                   📱 WhatsApp Us
-                </button>
-                <button className="bg-travel-blue-dark dark:bg-travel-purple-dark hover:opacity-90 text-white font-inter font-semibold px-6 py-3 rounded-xl transition-all duration-200 shadow-md">
+                </a>
+                <a 
+                  href="tel:+91123456789"
+                  className="bg-travel-blue-dark dark:bg-travel-purple-dark hover:opacity-90 text-white font-inter font-semibold px-6 py-3 rounded-xl transition-all duration-200 shadow-md">
                   📞 Call Now
-                </button>
-                <Link
+                </a>
+                <a
                   to="/contact"
+                  href="mailto:someone@example.com"
                   className="bg-white dark:bg-gray-800 border-2 border-travel-blue-dark dark:border-travel-purple-dark text-travel-blue-dark dark:text-travel-purple-light font-inter font-semibold px-6 py-3 rounded-xl hover:bg-travel-blue-light dark:hover:bg-travel-purple-dark hover:text-white transition-all duration-200 shadow-md"
                 >
                   📧 Email Us
-                </Link>
+                </a>
               </div>
             </div>
           </div>
