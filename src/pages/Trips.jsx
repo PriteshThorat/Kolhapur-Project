@@ -3,12 +3,16 @@ import { Link } from "react-router-dom";
 import Slideshow from "../components/ui/Slideshow.jsx";
 import BookingModal from "../components/ui/BookingModal.jsx";
 import { useState, useEffect } from 'react'
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import { TripCardSkeleton } from "../Skeletons/index.js";
 
-export default function Trips() {
+const Trips = () => {
   const [tourPackages, setTourPackages] = useState([])
   const [testimonials, setTestimonials] = useState([])
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false)
   const [selectedPackage, setSelectedPackage] = useState(null)
+  const [loading, setLoading] = useState(true);
   // Removed categories and selectedCategory state
 
   useEffect(() => {
@@ -17,10 +21,12 @@ export default function Trips() {
       .then(data => {
         setTourPackages(Array.isArray(data.trips) ? data.trips : []);
         setTestimonials(Array.isArray(data.testimonials) ? data.testimonials : []);
+        setLoading(false);
         // Removed category extraction
       })
       .catch(err => {
         console.log(err)
+        setLoading(false);
       })
   }, [])
 
@@ -57,82 +63,84 @@ export default function Trips() {
 
           {/* Tour Packages Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16 animate-fade-in">
-            {tourPackages.map((ptourPackage) => (
-              <div key={ptourPackage.id} className="group cursor-pointer">
-                <div className="bg-white/80 dark:bg-gray-900/80 rounded-2xl shadow-xl border border-travel-blue-light dark:border-travel-purple-dark overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-2xl hover:border-travel-purple-light dark:hover:border-travel-blue-light animate-fade-in">
-                  {/* Image */}
-                  <div className="relative">
-                    <Slideshow images={ptourPackage.images} alt={ptourPackage.name} />
-                    <div className="absolute top-4 left-4 bg-travel-purple-light dark:bg-travel-purple-dark text-white px-3 py-1 rounded-full text-sm font-medium">
-                      {ptourPackage.category}
-                    </div>
-                    <div className="absolute top-4 right-4 bg-white/90 dark:bg-gray-900/90 text-travel-blue-dark dark:text-travel-blue-light px-3 py-1 rounded-full text-sm font-bold">
-                      {ptourPackage.price}
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6">
-                    <h3 className="font-inter text-xl font-bold text-travel-blue-dark dark:text-travel-blue-light mb-2">
-                      {ptourPackage.name}
-                    </h3>
-
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                      {ptourPackage.description}
-                    </p>
-
-                    {/* Rating */}
-                    <div className="flex items-center mb-4">
-                      <div className="flex text-yellow-400">
-                        {[...Array(5)].map((_, i) => (
-                          <span key={i} className={i < Math.floor(ptourPackage.rating) ? "text-yellow-400" : "text-gray-300"}>
-                            ★
-                          </span>
-                        ))}
+            {loading
+              ? Array.from({ length: 6 }).map((_, idx) => <TripCardSkeleton key={idx} />)
+              : tourPackages.map((ptourPackage) => (
+                <div key={ptourPackage.id} className="group cursor-pointer">
+                  <div className="bg-white/80 dark:bg-gray-900/80 rounded-2xl shadow-xl border border-travel-blue-light dark:border-travel-purple-dark overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-2xl hover:border-travel-purple-light dark:hover:border-travel-blue-light animate-fade-in">
+                    {/* Image */}
+                    <div className="relative">
+                      <Slideshow images={ptourPackage.images} alt={ptourPackage.name} />
+                      <div className="absolute top-4 left-4 bg-travel-purple-light dark:bg-travel-purple-dark text-white px-3 py-1 rounded-full text-sm font-medium">
+                        {ptourPackage.category}
                       </div>
-                      <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">
-                        {ptourPackage.rating} ({ptourPackage.reviews} reviews)
-                      </span>
-                    </div>
-
-                    {/* Details */}
-                    <div className="flex justify-between items-center mb-4 text-sm">
-                      <span className="text-gray-600 dark:text-gray-300">
-                        ⏱️ {ptourPackage.duration}
-                      </span>
-                      <span className="text-gray-600 dark:text-gray-300">
-                        🏃 {ptourPackage.difficulty}
-                      </span>
-                    </div>
-
-                    {/* Highlights */}
-                    <div className="mb-6">
-                      <h4 className="font-inter font-semibold text-travel-purple-dark dark:text-travel-purple-light mb-2">
-                        Highlights:
-                      </h4>
-                      <div className="flex flex-wrap gap-2">
-                        {ptourPackage.highlights.map((highlight, index) => (
-                          <span
-                            key={index}
-                            className="bg-travel-blue-light/20 dark:bg-travel-purple-dark/20 text-travel-blue-dark dark:text-travel-purple-light px-2 py-1 rounded-full text-xs"
-                          >
-                            {highlight}
-                          </span>
-                        ))}
+                      <div className="absolute top-4 right-4 bg-white/90 dark:bg-gray-900/90 text-travel-blue-dark dark:text-travel-blue-light px-3 py-1 rounded-full text-sm font-bold">
+                        {ptourPackage.price}
                       </div>
                     </div>
 
-                    {/* Book Now Button */}
-                    <button 
-                      onClick={() => handleBookNow(ptourPackage)}
-                      className="w-full bg-gradient-to-tr from-travel-blue-light via-travel-purple-light to-travel-blue-dark dark:from-travel-blue-dark dark:via-travel-purple-dark dark:to-travel-blue-light text-white font-inter font-semibold py-3 rounded-xl hover:opacity-90 transition-all duration-200 shadow-md"
-                    >
-                      Book Now
-                    </button>
+                    {/* Content */}
+                    <div className="p-6">
+                      <h3 className="font-inter text-xl font-bold text-travel-blue-dark dark:text-travel-blue-light mb-2">
+                        {ptourPackage.name}
+                      </h3>
+
+                      <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                        {ptourPackage.description}
+                      </p>
+
+                      {/* Rating */}
+                      <div className="flex items-center mb-4">
+                        <div className="flex text-yellow-400">
+                          {[...Array(5)].map((_, i) => (
+                            <span key={i} className={i < Math.floor(ptourPackage.rating) ? "text-yellow-400" : "text-gray-300"}>
+                              ★
+                            </span>
+                          ))}
+                        </div>
+                        <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">
+                          {ptourPackage.rating} ({ptourPackage.reviews} reviews)
+                        </span>
+                      </div>
+
+                      {/* Details */}
+                      <div className="flex justify-between items-center mb-4 text-sm">
+                        <span className="text-gray-600 dark:text-gray-300">
+                          ⏱️ {ptourPackage.duration}
+                        </span>
+                        <span className="text-gray-600 dark:text-gray-300">
+                          🏃 {ptourPackage.difficulty}
+                        </span>
+                      </div>
+
+                      {/* Highlights */}
+                      <div className="mb-6">
+                        <h4 className="font-inter font-semibold text-travel-purple-dark dark:text-travel-purple-light mb-2">
+                          Highlights:
+                        </h4>
+                        <div className="flex flex-wrap gap-2">
+                          {ptourPackage.highlights.map((highlight, index) => (
+                            <span
+                              key={index}
+                              className="bg-travel-blue-light/20 dark:bg-travel-purple-dark/20 text-travel-blue-dark dark:text-travel-purple-light px-2 py-1 rounded-full text-xs"
+                            >
+                              {highlight}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Book Now Button */}
+                      <button
+                        onClick={() => handleBookNow(ptourPackage)}
+                        className="w-full bg-gradient-to-tr from-travel-blue-light via-travel-purple-light to-travel-blue-dark dark:from-travel-blue-dark dark:via-travel-purple-dark dark:to-travel-blue-light text-white font-inter font-semibold py-3 rounded-xl hover:opacity-90 transition-all duration-200 shadow-md"
+                      >
+                        Book Now
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
 
           {/* Testimonials Section */}
@@ -141,28 +149,41 @@ export default function Trips() {
               What Our Travelers Say
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {testimonials.map((testimonial) => (
-                <div key={testimonial.id} className="bg-white/80 dark:bg-gray-900/80 rounded-2xl p-6 shadow-xl border border-travel-blue-light dark:border-travel-purple-dark">
-                  <div className="flex items-center mb-4">
-                    <span className="text-3xl mr-4">{testimonial.avatar}</span>
-                    <div>
-                      <h4 className="font-inter font-semibold text-travel-blue-dark dark:text-travel-blue-light">
-                        {testimonial.name}
-                      </h4>
-                      <div className="flex text-yellow-400">
-                        {[...Array(5)].map((_, i) => (
-                          <span key={i} className={i < testimonial.rating ? "text-yellow-400" : "text-gray-300"}>
-                            ★
-                          </span>
-                        ))}
+              {loading
+                ? Array.from({ length: 3 }).map((_, idx) => (
+                  <div key={idx} className="bg-white/80 dark:bg-gray-900/80 rounded-2xl p-6 shadow-xl border border-travel-blue-light dark:border-travel-purple-dark">
+                    <div className="flex items-center mb-4">
+                      <Skeleton circle height={48} width={48} style={{ marginRight: 16 }} />
+                      <div>
+                        <Skeleton height={20} width={100} />
+                        <Skeleton height={16} width={80} />
                       </div>
                     </div>
+                    <Skeleton count={2} height={16} />
                   </div>
-                  <p className="text-gray-600 dark:text-gray-300 italic">
-                    "{testimonial.comment}"
-                  </p>
-                </div>
-              ))}
+                ))
+                : testimonials.map((testimonial) => (
+                  <div key={testimonial.id} className="bg-white/80 dark:bg-gray-900/80 rounded-2xl p-6 shadow-xl border border-travel-blue-light dark:border-travel-purple-dark">
+                    <div className="flex items-center mb-4">
+                      <span className="text-3xl mr-4">{testimonial.avatar}</span>
+                      <div>
+                        <h4 className="font-inter font-semibold text-travel-blue-dark dark:text-travel-blue-light">
+                          {testimonial.name}
+                        </h4>
+                        <div className="flex text-yellow-400">
+                          {[...Array(5)].map((_, i) => (
+                            <span key={i} className={i < testimonial.rating ? "text-yellow-400" : "text-gray-300"}>
+                              ★
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 dark:text-gray-300 italic">
+                      "{testimonial.comment}"
+                    </p>
+                  </div>
+                ))}
             </div>
           </div>
 
@@ -176,12 +197,12 @@ export default function Trips() {
                 Contact us for custom packages and personalized recommendations
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a 
+                <a
                   href="https://wa.me/123456789"
                   className="bg-green-500 hover:bg-green-600 text-white font-inter font-semibold px-6 py-3 rounded-xl transition-all duration-200 shadow-md">
                   📱 WhatsApp Us
                 </a>
-                <a 
+                <a
                   href="tel:+91123456789"
                   className="bg-travel-blue-dark dark:bg-travel-purple-dark hover:opacity-90 text-white font-inter font-semibold px-6 py-3 rounded-xl transition-all duration-200 shadow-md">
                   📞 Call Now
@@ -200,7 +221,7 @@ export default function Trips() {
       </main>
 
       {/* Booking Modal */}
-      <BookingModal 
+      <BookingModal
         isOpen={isBookingModalOpen}
         onClose={handleCloseModal}
         tourPackage={selectedPackage}
@@ -208,3 +229,5 @@ export default function Trips() {
     </div>
   );
 }
+
+export default Trips;

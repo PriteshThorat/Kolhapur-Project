@@ -1,6 +1,7 @@
 import { Header } from "../components/Header.jsx";
 import { useLocation, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import BookingModal from "../components/ui/BookingModal.jsx";
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -13,6 +14,8 @@ export default function Search() {
 
     const [trips, setTrips] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+    const [selectedPackage, setSelectedPackage] = useState(null);
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_GIST_DATA_URL}`)
@@ -37,6 +40,16 @@ export default function Search() {
             (pkg.description && pkg.description.toLowerCase().includes(loc))
         );
     });
+
+    const handleBookNow = (pkg) => {
+        setSelectedPackage(pkg);
+        setIsBookingModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsBookingModalOpen(false);
+        setSelectedPackage(null);
+    };
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-travel-blue-light via-travel-purple-light to-white dark:from-travel-blue-dark dark:via-travel-purple-dark dark:to-gray-900 transition-colors duration-500">
@@ -84,7 +97,7 @@ export default function Search() {
                                     <span className="text-gray-600 dark:text-gray-300">🏃 {pkg.difficulty}</span>
                                     <span className="text-gray-600 dark:text-gray-300">{pkg.price}</span>
                                 </div>
-                                <button className="w-full bg-gradient-to-tr from-travel-blue-light via-travel-purple-light to-travel-blue-dark dark:from-travel-blue-dark dark:via-travel-purple-dark dark:to-travel-blue-light text-white font-inter font-semibold py-3 rounded-xl hover:opacity-90 transition-all duration-200 shadow-md mt-2">
+                                <button className="w-full bg-gradient-to-tr from-travel-blue-light via-travel-purple-light to-travel-blue-dark dark:from-travel-blue-dark dark:via-travel-purple-dark dark:to-travel-blue-light text-white font-inter font-semibold py-3 rounded-xl hover:opacity-90 transition-all duration-200 shadow-md mt-2" onClick={() => handleBookNow(pkg)}>
                                     Book Now
                                 </button>
                             </div>
@@ -98,6 +111,12 @@ export default function Search() {
                     </div>
                 </div>
             </main>
+            {/* Booking Modal */}
+            <BookingModal
+                isOpen={isBookingModalOpen}
+                onClose={handleCloseModal}
+                tourPackage={selectedPackage}
+            />
         </div>
     );
 } 

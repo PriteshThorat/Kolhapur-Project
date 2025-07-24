@@ -15,11 +15,11 @@ export default function BookingModal({ isOpen, onClose, tourPackage }) {
     e.preventDefault();
     // Here you would typically send the booking data to your backend
     console.log('Booking submitted:', { ...formData, packageId: tourPackage?.id });
-    
+
     // Show success message and close modal
     alert(`Thank you ${formData.name}! Your booking request for "${tourPackage?.name}" has been submitted. We'll contact you soon!`);
     onClose();
-    
+
     // Reset form
     setFormData({
       name: '',
@@ -137,7 +137,7 @@ export default function BookingModal({ isOpen, onClose, tourPackage }) {
               required
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-travel-blue-light dark:bg-gray-800 dark:text-white"
             >
-              {[1,2,3,4,5,6,7,8,9,10].map(num => (
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
                 <option key={num} value={num}>{num} {num === 1 ? 'Guest' : 'Guests'}</option>
               ))}
             </select>
