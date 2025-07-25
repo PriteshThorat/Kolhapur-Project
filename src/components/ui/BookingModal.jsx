@@ -42,7 +42,7 @@ export default function BookingModal({ isOpen, onClose, tourPackage }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[200] p-4">
       <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="p-6 border-b border-gray-200 dark:border-gray-700">
@@ -67,56 +67,63 @@ export default function BookingModal({ isOpen, onClose, tourPackage }) {
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="booking-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Full Name *
             </label>
             <input
               type="text"
+              id="booking-name"
               name="name"
               value={formData.name}
               onChange={handleInputChange}
               required
+              autoComplete="name"
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-travel-blue-light dark:bg-gray-800 dark:text-white"
               placeholder="Enter your full name"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="booking-email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Email Address *
             </label>
             <input
               type="email"
+              id="booking-email"
               name="email"
               value={formData.email}
               onChange={handleInputChange}
               required
+              autoComplete="email"
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-travel-blue-light dark:bg-gray-800 dark:text-white"
               placeholder="Enter your email"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="booking-phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Phone Number *
             </label>
             <input
               type="tel"
+              id="booking-phone"
               name="phone"
               value={formData.phone}
               onChange={handleInputChange}
               required
+              autoComplete="tel"
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-travel-blue-light dark:bg-gray-800 dark:text-white"
               placeholder="Enter your phone number"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="booking-date" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Preferred Date *
             </label>
             <input
               type="date"
+              id="booking-date"
               name="date"
               value={formData.date}
               onChange={handleInputChange}
@@ -127,10 +134,11 @@ export default function BookingModal({ isOpen, onClose, tourPackage }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="booking-guests" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Number of Guests *
             </label>
             <select
+              id="booking-guests"
               name="guests"
               value={formData.guests}
               onChange={handleInputChange}
@@ -144,10 +152,11 @@ export default function BookingModal({ isOpen, onClose, tourPackage }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="booking-message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Special Requirements
             </label>
             <textarea
+              id="booking-message"
               name="message"
               value={formData.message}
               onChange={handleInputChange}

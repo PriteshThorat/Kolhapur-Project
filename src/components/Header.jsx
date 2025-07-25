@@ -7,15 +7,34 @@ export const Header = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <header className="sticky top-0 z-40 w-full backdrop-blur-md bg-white/70 dark:bg-gray-900/70 shadow-lg rounded-b-2xl transition-colors duration-500">
+    <header className="sticky top-0 z-[100] w-full backdrop-blur-md bg-white/95 dark:bg-gray-900/95 shadow-lg border-b border-gray-200/50 dark:border-gray-700/50 transition-colors duration-500">
       <div className="max-w-screen-xl mx-auto flex justify-between items-center px-4 py-2">
-        <Link to="/" className="flex-shrink-0 group">
-          <div className="bg-white/90 dark:bg-transparent rounded-xl shadow-md border border-gray-200 dark:border-transparent p-1 transition-all duration-300">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/1df842607b032ce66debbd7f7280c0fc0d344658?width=500"
-              alt="TRAVERSE"
-              className="w-[200px] md:w-[250px] h-[56px] md:h-[69px] object-contain drop-shadow-lg group-hover:scale-105 group-hover:drop-shadow-2xl transition-transform duration-200"
-            />
+        <Link to="/" className="flex-shrink-0 group relative z-20 min-w-fit">
+          <div className="bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 rounded-xl shadow-xl border-2 border-travel-blue-light/20 dark:border-travel-purple-light/20 p-3 transition-all duration-300 backdrop-blur-sm hover:shadow-2xl hover:border-travel-purple-light/40 dark:hover:border-travel-blue-light/40">
+            <div className="relative">
+              <img
+                src="/Logo.png"
+                alt="Kolhapur Tourism Logo"
+                className="w-[180px] md:w-[220px] h-[48px] md:h-[60px] object-contain drop-shadow-lg group-hover:scale-105 group-hover:drop-shadow-2xl transition-transform duration-200 block filter brightness-100 dark:brightness-110"
+                onError={(e) => {
+                  console.error('Logo failed to load, showing text fallback');
+                  e.target.style.display = 'none';
+                  const fallback = e.target.nextElementSibling;
+                  if (fallback) fallback.style.display = 'flex';
+                }}
+                onLoad={(e) => {
+                  const fallback = e.target.nextElementSibling;
+                  if (fallback) fallback.style.display = 'none';
+                }}
+              />
+              {/* Text Fallback */}
+              <div 
+                className="hidden w-[180px] md:w-[220px] h-[48px] md:h-[60px] items-center justify-center bg-gradient-to-r from-travel-blue-light to-travel-purple-light text-white rounded-lg font-passion text-lg md:text-xl font-bold tracking-wide group-hover:scale-105 transition-transform duration-200"
+                style={{ display: 'none' }}
+              >
+                <span className="drop-shadow-lg">KOLHAPUR TOURISM</span>
+              </div>
+            </div>
           </div>
         </Link>
 
@@ -93,7 +112,7 @@ export const Header = () => {
             </span>
           </button>
           {/* Tooltip */}
-          <span className="absolute left-1/2 -translate-x-1/2 mt-2 px-3 py-1 rounded bg-gray-800 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20 whitespace-nowrap">
+          <span className="absolute left-1/2 -translate-x-1/2 mt-2 px-3 py-1 rounded bg-gray-800 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-60 whitespace-nowrap">
             Toggle dark mode
           </span>
         </div>

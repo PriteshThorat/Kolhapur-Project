@@ -50,29 +50,33 @@ export default function Contact() {
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-travel-purple-dark dark:text-travel-purple-light font-medium mb-2">
+                                        <label htmlFor="contact-name" className="block text-travel-purple-dark dark:text-travel-purple-light font-medium mb-2">
                                             Name *
                                         </label>
                                         <input
                                             type="text"
+                                            id="contact-name"
                                             name="name"
                                             value={formData.name}
                                             onChange={handleChange}
                                             required
+                                            autoComplete="name"
                                             className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-travel-blue-dark dark:text-travel-blue-light focus:outline-none focus:ring-2 focus:ring-travel-purple-light dark:focus:ring-travel-purple-dark"
                                         />
                                     </div>
 
                                     <div>
-                                        <label className="block text-travel-purple-dark dark:text-travel-purple-light font-medium mb-2">
+                                        <label htmlFor="contact-email" className="block text-travel-purple-dark dark:text-travel-purple-light font-medium mb-2">
                                             Email *
                                         </label>
                                         <input
                                             type="email"
+                                            id="contact-email"
                                             name="email"
                                             value={formData.email}
                                             onChange={handleChange}
                                             required
+                                            autoComplete="email"
                                             className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-travel-blue-dark dark:text-travel-blue-light focus:outline-none focus:ring-2 focus:ring-travel-purple-light dark:focus:ring-travel-purple-dark"
                                         />
                                     </div>
@@ -80,23 +84,26 @@ export default function Contact() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-travel-purple-dark dark:text-travel-purple-light font-medium mb-2">
+                                        <label htmlFor="contact-phone" className="block text-travel-purple-dark dark:text-travel-purple-light font-medium mb-2">
                                             Phone
                                         </label>
                                         <input
                                             type="tel"
+                                            id="contact-phone"
                                             name="phone"
                                             value={formData.phone}
                                             onChange={handleChange}
+                                            autoComplete="tel"
                                             className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-travel-blue-dark dark:text-travel-blue-light focus:outline-none focus:ring-2 focus:ring-travel-purple-light dark:focus:ring-travel-purple-dark"
                                         />
                                     </div>
 
                                     <div>
-                                        <label className="block text-travel-purple-dark dark:text-travel-purple-light font-medium mb-2">
+                                        <label htmlFor="contact-package" className="block text-travel-purple-dark dark:text-travel-purple-light font-medium mb-2">
                                             Package Interest
                                         </label>
                                         <select
+                                            id="contact-package"
                                             name="package"
                                             value={formData.package}
                                             onChange={handleChange}
@@ -114,11 +121,12 @@ export default function Contact() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-travel-purple-dark dark:text-travel-purple-light font-medium mb-2">
+                                    <label htmlFor="contact-subject" className="block text-travel-purple-dark dark:text-travel-purple-light font-medium mb-2">
                                         Subject *
                                     </label>
                                     <input
                                         type="text"
+                                        id="contact-subject"
                                         name="subject"
                                         value={formData.subject}
                                         onChange={handleChange}
@@ -128,10 +136,11 @@ export default function Contact() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-travel-purple-dark dark:text-travel-purple-light font-medium mb-2">
+                                    <label htmlFor="contact-message" className="block text-travel-purple-dark dark:text-travel-purple-light font-medium mb-2">
                                         Message *
                                     </label>
                                     <textarea
+                                        id="contact-message"
                                         name="message"
                                         value={formData.message}
                                         onChange={handleChange}

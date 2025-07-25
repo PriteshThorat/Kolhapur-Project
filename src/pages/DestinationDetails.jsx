@@ -30,7 +30,7 @@ export default function DestinationDetails() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-travel-blue-light via-travel-purple-light to-white dark:from-travel-blue-dark dark:via-travel-purple-dark dark:to-gray-900 transition-colors duration-500">
             <Header />
-            <main className="pt-16 pb-16">
+            <main className="pt-24 pb-16 relative z-10">
                 <div className="max-w-screen-md mx-auto px-4">
                     {loading ? (
                         <div className="text-center text-xl text-travel-purple-dark dark:text-travel-purple-light py-24">Loading...</div>

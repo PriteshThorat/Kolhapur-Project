@@ -75,6 +75,8 @@ export default function LocationDropdown({ value, onChange, options, placeholder
                 </span>
                 <input
                     type="text"
+                    id="location-input"
+                    name="location"
                     className="flex-1 bg-transparent border-none outline-none font-tinos text-lg md:text-2xl lg:text-[32px] text-travel-blue-dark dark:text-travel-blue-light placeholder-travel-purple-dark dark:placeholder-travel-purple-light"
                     placeholder={placeholder}
                     value={input}
@@ -82,6 +84,7 @@ export default function LocationDropdown({ value, onChange, options, placeholder
                     onFocus={() => setOpen(true)}
                     aria-autocomplete="list"
                     aria-controls="location-suggestions"
+                    autoComplete="off"
                 />
                 {/* Animated Arrow */}
                 <svg className={`w-6 h-6 text-travel-purple-dark dark:text-travel-purple-light transform transition-transform duration-200 ${open ? "rotate-180" : "rotate-0"}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">

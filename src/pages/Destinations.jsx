@@ -37,7 +37,7 @@ const Destinations = () => {
     <div className="min-h-screen bg-gradient-to-br from-travel-blue-light via-travel-purple-light to-white dark:from-travel-blue-dark dark:via-travel-purple-dark dark:to-gray-900 transition-colors duration-500">
       <Header />
 
-      <main className="flex justify-center items-center min-h-[calc(100vh-73px)] p-4">
+      <main className="flex justify-center items-center min-h-[calc(100vh-85px)] p-4">
         <div className="max-w-screen-xl mx-auto px-4">
           {/* Header Section */}
           <div className="text-center mb-16 animate-fade-in">
